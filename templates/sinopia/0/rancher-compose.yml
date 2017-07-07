@@ -9,6 +9,6 @@
     - variable: "SINOPIA_PORT"
       label: "Sinopia port"
       description: "Port to be exposed by sinopia"
-      type: "number"
+      type: "int"
       default: 4873
       required: true
