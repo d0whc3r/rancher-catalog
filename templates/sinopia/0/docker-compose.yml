@@ -1,0 +1,8 @@
+sinopia:
+  restart: always
+  image: keyvanfatehi/sinopia:latest
+  ports:
+    - ${SINOPIA_PORT}:4873
+  labels:
+    io.rancher.container.hostname_override: container_name
+    io.rancher.scheduler.affinity:host_label_soft: ${HOST_LABEL}

@@ -1,0 +1,5 @@
+name: Sinopia
+description: |
+  A private/caching npm repository server
+version: 1.0
+category: Npm, registry
