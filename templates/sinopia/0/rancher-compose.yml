@@ -1,0 +1,14 @@
+.catalog:
+  name: Sinopia
+  version: latest
+  description: |
+    "Sinopia npm private registry"
+  uuid: sinopia-0
+  minimum_rancher_version: v0.44.0
+  questions:
+    - variable: "SINOPIA_PORT"
+      label: "Sinopia port"
+      description: "Port to be exposed by sinopia"
+      type: "number"
+      default: 4873
+      required: true
