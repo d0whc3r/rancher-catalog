@@ -1,0 +1,8 @@
+name: Kong + PostgreSQL
+description: |
+  Open-Source API Management and Microservice Management
+version: v0.0.1
+category: Load Balancing
+maintainer: "d0whc3r"
+minimum_rancher_version: v1.0.0
+license: MIT
