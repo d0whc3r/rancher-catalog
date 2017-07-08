@@ -8,9 +8,8 @@ kong-database:
   image: postgres:latest
   environment:
     PGDATA: /var/lib/postgresql/data/pgdata
-    POSTGRES_DB: ${postgres_db}
-    POSTGRES_USER: ${postgres_user}
-    POSTGRES_PASSWORD: ${postgres_password}
+    POSTGRES_USER: kong
+    POSTGRES_DB: kong
   tty: true
   stdin_open: true
   labels:
@@ -29,11 +28,8 @@ kong:
   - 8001:8001/tcp
   - 8443:8443/tcp
   environment:
-    POSTGRES_HOST: ${postgres_db}
-    POSTGRES_PORT: 5432
-    POSTGRES_DB: kongdb
-    POSTGRES_USER: ${postgres_user}
-    POSTGRES_PASSWORD: ${postgres_password}
+    KONG_DATABASE: postgres
+    KONG_PG_HOST: kong-database
   links:
     - kong-database:kong-database
   labels:
