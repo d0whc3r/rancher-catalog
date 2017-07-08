@@ -1,0 +1,10 @@
+0A.pem
+0B.pem
+0C.pem
+certindex
+certindex.attr
+certindex.attr.old
+certindex.old
+certs/
+myca.conf
+serial*

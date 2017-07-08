@@ -7,7 +7,42 @@ keyca="privkey.pem"
 domain="yourdoamin.tld"
 maxconsul=3
 
-rm -rf serial certindex ${fileconf} cert* *.pem *.old ${dircerts}
+cleanFiles() {
+    rm -rf serial certindex ${fileconf} cert* *.pem *.old ${dircerts}
+}
+
+readPrint() {
+    echo "[+] CA Cert:"
+    cat ${dircerts}/${certca}
+    echo ""
+
+    for i in `seq 1 ${maxconsul}`; do
+      echo "[+] Consul${i} Cert:"
+      cat ${dircerts}/consul${i}.cert
+      echo ""
+    done
+
+    for i in `seq 1 ${maxconsul}`; do
+      echo "[+] Consul${i} Key:"
+      cat ${dircerts}/consul${i}.key
+      echo ""
+    done
+
+    echo "[+] Gossip:"
+    docker run --rm consul keygen
+}
+
+if [ "$1" = "--remove" ]; then
+    cleanFiles
+    exit 0
+fi
+
+if [ "$1" = "--show" ]; then
+    readPrint
+    exit 0
+fi
+
+cleanFiles
 mkdir -p ${dircerts}
 
 echo "000a" > serial
@@ -53,18 +88,5 @@ for i in `seq 1 ${maxconsul}`; do
   openssl ca -batch -config ${fileconf} -notext -in ${dircerts}/consul${i}.csr -out ${dircerts}/consul${i}.cert
 done
 
-echo "[+] CA Cert:"
-cat ${dircerts}/${certca}
+readPrint
 
-for i in `seq 1 ${maxconsul}`; do
-  echo "[+] Consul${i} Cert:"
-  cat ${dircerts}/consul${i}.cert
-done
-
-for i in `seq 1 ${maxconsul}`; do
-  echo "[+] Consul${i} Key:"
-  cat ${dircerts}/consul${i}.key
-done
-
-echo "[+] Gossip:"
-docker run --rm consul keygen

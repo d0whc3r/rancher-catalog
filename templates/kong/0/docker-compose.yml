@@ -1,0 +1,57 @@
+kong-data:
+  image: alpine
+  labels:
+    io.rancher.container.start_once: true
+    io.rancher.scheduler.global: 'true'
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  volumes:
+    - /var/lib/postgresql/data/pgdata
+kong-database:
+  image: postgres:latest
+  environment:
+    PGDATA: /var/lib/postgresql/data/pgdata
+    POSTGRES_DB: ${postgres_db}
+    POSTGRES_USER: ${postgres_user}
+    POSTGRES_PASSWORD: ${postgres_password}
+  tty: true
+  stdin_open: true
+  labels:
+    io.rancher.sidekicks: kong-data
+    io.rancher.scheduler.global: 'true'
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  volumes_from:
+    - kong-data
+kong:
+  image: littlebaydigital/kong
+  ports:
+  - 7946:7946/tcp
+  - 7946:7946/udp
+  - 8000:8000/tcp
+  - 8001:8001/tcp
+  - 8443:8443/tcp
+  environment:
+    CLUSTER_LISTEN: rancher
+    DATABASE: postgres
+    POSTGRES_HOST: kong-database
+    POSTGRES_PORT: 5432
+    POSTGRES_USER: ${postgres_user}
+    POSTGRES_PASSWORD: ${postgres_password}
+    POSTGRES_DB: ${postgres_db}
+  labels:
+    io.rancher.sidekicks: kong-database
+    io.rancher.scheduler.global: 'true'
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  tty: true
+kong-dashboard:
+  image: pgbi/kong-dashboard:v2
+  ports:
+    - 8080:8080
+  labels:
+    io.rancher.sidekicks: kong
+    io.rancher.scheduler.global: 'true'
+    io.rancher.container.pull_image: always
+    io.rancher.container.hostname_override: container_name
+  tty: true
