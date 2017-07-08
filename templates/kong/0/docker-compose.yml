@@ -1,5 +1,5 @@
 kong-data:
-  image: busybox
+  image: busybox:latest
   labels:
     io.rancher.container.start_once: true
   volumes:
@@ -38,7 +38,7 @@ kong:
     io.rancher.container.hostname_override: container_name
   tty: true
 kong-dashboard:
-  image: pgbi/kong-dashboard:v2
+  image: pgbi/kong-dashboard:latest
   ports:
     - 8080:8080
   links:
