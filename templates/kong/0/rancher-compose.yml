@@ -9,19 +9,19 @@
       description: "Postgres Database"
       label: "Postgres Database"
       required: true
-      default: "kong-database"
+      default: "kongdatabase"
       type: "string"
     - variable: postgres_user
       description: "Postgres User"
       label: "Postgres User"
       required: true
-      default: "kong-user"
+      default: "konguser"
       type: "string"
     - variable: postgres_password
       description: "Postgres Password"
       label: "Postgres Password"
       required: true
-      default: "kong-password"
+      default: "kongpassword"
       type: "string"
 
 version: '2'
@@ -30,7 +30,7 @@ services:
     scale: 1
     health_check:
       port: 5432
-      interval: 2000
+      interval: 20000
       unhealthy_threshold: 3
       healthy_threshold: 2
       response_timeout: 2000
@@ -38,7 +38,7 @@ services:
     retain_ip: true
     health_check:
       port: 8001
-      interval: 5000
+      interval: 50000
       unhealthy_threshold: 3
       request_line: 'GET /# HTTP/1.0'
       healthy_threshold: 2

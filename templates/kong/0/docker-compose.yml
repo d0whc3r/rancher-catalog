@@ -1,5 +1,5 @@
 kong-data:
-  image: alpine
+  image: busybox
   labels:
     io.rancher.container.start_once: true
   volumes:
