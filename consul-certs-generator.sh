@@ -81,12 +81,11 @@ extendedKeyUsage = serverAuth,clientAuth
 
 EOF
 
-openssl req -newkey rsa:2048 -days 3650 -x509 -nodes -out ${dircerts}/${certca} -keyout ${dircerts}/${keyca}
+echo -e '\n\n\n\n\nlocalhost\n\n\n' | openssl req -newkey rsa:2048 -days 3650 -x509 -nodes -out ${dircerts}/${certca} -keyout ${dircerts}/${keyca}
 
 for i in `seq 1 ${maxconsul}`; do
-  openssl req -newkey rsa:1024 -nodes -out ${dircerts}/consul${i}.csr -keyout ${dircerts}/consul${i}.key
+  echo -e '\n\n\n\n\nlocalhost\n\n\n' | openssl req -newkey rsa:1024 -nodes -out ${dircerts}/consul${i}.csr -keyout ${dircerts}/consul${i}.key
   openssl ca -batch -config ${fileconf} -notext -in ${dircerts}/consul${i}.csr -out ${dircerts}/consul${i}.cert
 done
 
 readPrint
-
